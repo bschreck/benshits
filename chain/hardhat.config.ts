@@ -30,6 +30,20 @@ const config: HardhatUserConfig = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+    rinkeby: {
+      url: "https://eth-rinkeby.alchemyapi.io/v2/U5ZytqhwlKG4hR9kx2dG9B7IIvWOuBGl",
+      accounts: {
+        mnemonic:
+          "wife jacket tourist stock immune sponsor cash truck ship strike pizza paper",
+      },
+    },
+    localhost: {
+      url: "http://localhost:8545",
+      accounts: [
+        process.env.PRE_FUNDED_PRIVATE_KEY_1 || "",
+        process.env.PRE_FUNDED_PRIVATE_KEY_2 || "",
+      ],
+    },
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,

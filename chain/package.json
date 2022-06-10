@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "deploy_classtoken": "hardhat run ./scripts/deploy_classtoken.ts"
+  },
   "dependencies": {
     "@openzeppelin/contracts": "^4.6.0",
     "hardhat": "^2.9.9"

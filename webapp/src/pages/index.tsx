@@ -94,14 +94,14 @@ const Home: NextPage = () => {
         <Box  mb={0} p={4} w='100%' borderWidth="1px" borderRadius="lg">
           <Heading my={4}  fontSize='xl'>Read ClassToken Info</Heading>
           <ReadERC20
-            addressContract='0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+            addressContract={process.env.CLASS_TOKEN_CONTRACT || ""}
             currentAccount={currentAccount}
           />
         </Box>
         <Box  mb={0} p={4} w='100%' borderWidth="1px" borderRadius="lg">
           <Heading my={4}  fontSize='xl'>Transfer Classtoken</Heading>
           <TransferERC20
-            addressContract='0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+            addressContract={process.env.CLASS_TOKEN_CONTRACT || ""}
             currentAccount={currentAccount}
           />
         </Box>
