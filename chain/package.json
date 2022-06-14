@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "deploy_classtoken": "hardhat run ./scripts/deploy_classtoken.ts"
+    "deploy_classtoken": "hardhat run ./scripts/deploy_classtoken.ts",
+    "deploy_timenft": "hardhat run ./scripts/deploy_timenft.ts",
+    "compile": "hardhat compile && cp -R artifacts/ ../src/artifacts"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.6.0",

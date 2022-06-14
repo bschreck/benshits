@@ -1,7 +1,6 @@
 import { ethers } from "hardhat";
 
 async function main() {
-
   const initialSupply = ethers.utils.parseEther('10000.0')
   const ClassToken = await ethers.getContractFactory("ClassToken");
   const token = await ClassToken.deploy(initialSupply);
