@@ -16,59 +16,38 @@ import {parseEther } from 'ethers/lib/utils'
 import abi from 'artifacts/contracts/TimeNFT.sol/TimeNFT.json'
 import { Contract } from "ethers"
 import { TransactionResponse,TransactionReceipt } from "@ethersproject/abstract-provider"
-import { Ask, askAllZeros } from "components/ask_utils"
+import { defaultAsk, askAllZeros, Ask, useAsks, Props } from "components/ask_utils"
 
-import { AsksV11__factory } from "@zoralabs/v3/dist/typechain/factories/AsksV11__factory";
-import rinkebyZoraAddresses from "@zoralabs/v3/dist/addresses/4.json"; // Mainnet addresses, 4.json would be Rinkeby Testnet
-import { ZoraModuleManager__factory } from "@zoralabs/v3/dist/typechain/factories/ZoraModuleManager__factory";
-
-const erc721TransferHelperAddress = rinkebyZoraAddresses.ERC721TransferHelper;
-const zoraModuleAddresses = [rinkebyZoraAddresses.AsksV1_1, rinkebyZoraAddresses.OffersV1];
-
-
-const formatter = new Intl.NumberFormat("en-us", {
-  minimumFractionDigits: 4,
-  maximumFractionDigits: 4,
-});
-
-const formatBalance = (balance: ethers.BigNumber | undefined) =>
-  formatter.format(parseFloat(ethers.BigNumber.from(balance).toHexString()));
-
-
-interface Props {
-    addressContract: string,
-    currentAccount: string | undefined
-}
-
-declare let window: any;
 
 export default function ReadAsks(props:Props){
   const addressContract = props.addressContract;
   const currentAccount = props.currentAccount;
-  const [tokenId,setTokenId]=useState<string>('0x');
+
+  const { checkApprovals,
+    doApprovals,
+    tokenId, setTokenId,
+    zoraAddresses,
+    provider,
+    nftContract,
+    askModuleContract,
+    needsApproval, setNeedsApproval,
+    erc721NeedsApproveTransferHelper, setErc721NeedsApproveTransferHelper,
+  } = useAsks(props);
+
   const [askPrice, setAskPrice]=useState<string>("0x0");
   const [findersFeeBps, setFindersFeeBps]=useState<string>("200");
-  const [needsApproval, setNeedsApproval] = useState<boolean>(true);
-  const [erc721NeedsApproveTransferHelper, setErc721NeedsApproveTransferHelper] = useState<boolean>(true);
-  const [moduleAddressesToApprove, setModuleAddressesToApprove] = useState<Array<string>>([]);
   const [asks, setAsks] = useState<Array<Ask>>([]);
 
   useEffect( () => {
-    if(!window.ethereum) return
     if(!currentAccount) return
+    if(!provider) return
+    if(!askModuleContract) return
     getAsks(window, currentAccount)
 
     console.log(`listening for Asks...`)
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    const tokenContract = new ethers.Contract(addressContract, abi.abi, provider)
-    // TODO probably dont need signer here, can use provider
-    const askModuleContract = AsksV11__factory.connect(rinkebyZoraAddresses.AsksV1_1, signer);
-
     // listen for changes on an Ethereum address
     console.log(`listening for Transfer...`)
-
 
     const askCreated = askModuleContract.filters.AskCreated(
       addressContract,
@@ -118,21 +97,31 @@ export default function ReadAsks(props:Props){
 
   async function getAsks(window:any, currentAccount: string){
     console.log("get asks");
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    const contract:Contract = new ethers.Contract(addressContract, abi.abi, signer)
+    if(!provider) return
+    if(!nftContract) return
+    if(!askModuleContract) return
+    if(!currentAccount) return
 
-    const askModuleContract = AsksV11__factory.connect(rinkebyZoraAddresses.AsksV1_1, signer);
-
-    const balanceString = await contract.balanceOf(currentAccount);
+    let balanceString = ""
+    try {
+      balanceString = await nftContract.balanceOf(currentAccount);
+    } catch (err) {
+      console.log(err)
+      return
+    }
     const balance = Number(balanceString);
 
     const tokenIds = [];
     const asks: Array<Ask> = [];
     for (let i = 0; i<balance; i++) {
-      const token = await contract.tokenOfOwnerByIndex(currentAccount, i);
+      const token = await nftContract.tokenOfOwnerByIndex(currentAccount, i);
       tokenIds.push(token.toHexString());
-      const ask = await askModuleContract.askForNFT(addressContract, token.toHexString()) as Ask;
+      let ask = defaultAsk();
+      try {
+        ask = await askModuleContract.askForNFT(addressContract, token.toHexString()) as Ask;
+      } catch (err) {
+        console.log(err)
+      }
       if (!askAllZeros(ask)) {
         asks.push(ask);
       }

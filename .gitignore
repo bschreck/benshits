@@ -21,6 +21,7 @@ webapp/.pnp.js
 # next.js
 webapp/.next/
 webapp/out/
+.next
 
 # production
 webapp/build

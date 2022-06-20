@@ -50,19 +50,28 @@ export default function ReadERC20(props:Props){
   async function queryTokenBalance(window:any){
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const erc20 = new ethers.Contract(addressContract, abi.abi, provider);
-    erc20.balanceOf(currentAccount)
-      .then((result:string)=>{
-        SetBalance(Number(ethers.utils.formatEther(result)))
-      })
-    .catch('error', console.error)
+    let result = ""
+    try {
+      result = await erc20.balanceOf(currentAccount)
+    } catch (err) {
+      console.log(err);
+      return
+    }
+    SetBalance(Number(ethers.utils.formatEther(result)))
 
     //erc20.symbol().then((result:string)=>{
     //    setSymbol(result)
     //}).catch('error', console.error)
+    //
+    try {
+      result = await erc20.totalSupply()
+    } catch (err){
+      console.error(err)
+    }
+    if (result !== "") {
+      setTotalSupply(ethers.utils.formatEther(result))
+    }
 
-    erc20.totalSupply().then((result:string)=>{
-        setTotalSupply(ethers.utils.formatEther(result))
-    }).catch('error', console.error);
     //called only once
   }
 

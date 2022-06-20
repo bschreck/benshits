@@ -49,7 +49,14 @@ export default function ReadTimeNFT(props:Props){
   async function queryOwnedTokens(window:any){
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const contract = new ethers.Contract(addressContract, abi.abi, provider);
-    const balanceString = await contract.balanceOf(currentAccount);
+    let balanceString = "";
+    try {
+      balanceString = await contract.balanceOf(currentAccount);
+    }
+    catch (err) {
+      console.log(err)
+      return
+    }
     const balance = Number(balanceString);
     const tokenIds = [];
     for (let i = 0; i<balance; i++) {
@@ -58,9 +65,15 @@ export default function ReadTimeNFT(props:Props){
     }
     SetTokenIds(tokenIds);
 
-    contract.totalSupply().then((result:string)=>{
-        setTotalSupply(ethers.utils.formatEther(result))
-    }).catch('error', console.error);
+    let result = ""
+    try {
+      result = await contract.totalSupply()
+    } catch (err){
+      console.error(err)
+    }
+    if (result !== "") {
+      setTotalSupply(ethers.BigNumber.from(result).toString())
+    }
   }
 
   return (

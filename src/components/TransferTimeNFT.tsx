@@ -32,7 +32,16 @@ export default function TransferTimeNFT(props:Props){
     console.log("transfer receipt",receipt);
   }
 
-  const handleChange = (tokenId:string) => setTokenId(ethers.BigNumber.from(tokenId).toHexString())
+  const handleChange = (tokenId:string) => {
+    if (tokenId !== "") {
+      try {
+        tokenId = ethers.BigNumber.from(tokenId).toHexString();
+      } catch {
+        tokenId = ""
+      }
+    }
+    setTokenId(tokenId);
+  }
 
   return (
     <form onSubmit={transfer}>

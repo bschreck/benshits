@@ -15,7 +15,12 @@ import ReadAsks from "components/ReadAsks"
 import CancelAsk from "components/CancelAsk"
 import FillAsk from "components/FillAsk"
 import UpdateAsk from "components/UpdateAsk"
-
+import CreateAuction from "components/CreateAuction"
+import UpdateAuction from "components/UpdateAuction"
+import SettleAuction from "components/SettleAuction"
+import CancelAuction from "components/CancelAuction"
+import CreateBid from "components/CreateBid"
+import ReadAuctions from "components/ReadAuctions"
 declare let window:any
 
 const Home: NextPage = () => {
@@ -174,6 +179,53 @@ const Home: NextPage = () => {
           />
         </Box>
 
+        <Box  mb={0} p={4} w='100%' borderWidth="1px" borderRadius="lg">
+          <Heading my={4}  fontSize='xl'>Create Auction</Heading>
+          <CreateAuction
+            addressContract={process.env.TIME_NFT_CONTRACT || ""}
+            currentAccount={currentAccount}
+          />
+        </Box>
+
+        <Box  mb={0} p={4} w='100%' borderWidth="1px" borderRadius="lg">
+          <Heading my={4}  fontSize='xl'>Update Auction Reserve Price</Heading>
+          <UpdateAuction
+            addressContract={process.env.TIME_NFT_CONTRACT || ""}
+            currentAccount={currentAccount}
+          />
+        </Box>
+
+        <Box  mb={0} p={4} w='100%' borderWidth="1px" borderRadius="lg">
+          <Heading my={4}  fontSize='xl'>Cancel Auction</Heading>
+          <CancelAuction
+            addressContract={process.env.TIME_NFT_CONTRACT || ""}
+            currentAccount={currentAccount}
+          />
+        </Box>
+
+        <Box  mb={0} p={4} w='100%' borderWidth="1px" borderRadius="lg">
+          <Heading my={4}  fontSize='xl'>Create Bid</Heading>
+          <CreateBid
+            addressContract={process.env.TIME_NFT_CONTRACT || ""}
+            currentAccount={currentAccount}
+          />
+        </Box>
+
+        <Box  mb={0} p={4} w='100%' borderWidth="1px" borderRadius="lg">
+          <Heading my={4}  fontSize='xl'>Settle Auction</Heading>
+          <SettleAuction
+            addressContract={process.env.TIME_NFT_CONTRACT || ""}
+            currentAccount={currentAccount}
+          />
+        </Box>
+
+        <Box  mb={0} p={4} w='100%' borderWidth="1px" borderRadius="lg">
+          <Heading my={4}  fontSize='xl'>Read Auctions</Heading>
+          <ReadAuctions
+            addressContract={process.env.TIME_NFT_CONTRACT || ""}
+            currentAccount={currentAccount}
+          />
+        </Box>
         <LinkBox  my={4} p={4} w='100%' borderWidth="1px" borderRadius="lg">
           <NextLink href="https://github.com/NoahZinsmeister/web3-react/tree/v6" passHref>
           <LinkOverlay>

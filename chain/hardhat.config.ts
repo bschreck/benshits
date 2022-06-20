@@ -27,14 +27,17 @@ const config: HardhatUserConfig = {
   networks: {
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-    },
-    rinkeby: {
-      url: "https://eth-rinkeby.alchemyapi.io/v2/U5ZytqhwlKG4hR9kx2dG9B7IIvWOuBGl",
       accounts: {
         mnemonic:
-          "wife jacket tourist stock immune sponsor cash truck ship strike pizza paper",
+        "arm bunker now crowd canoe candy erupt ability behave pretty pass essay",
+      },
+    },
+    rinkeby: {
+      url: process.env.ROPSTEN_URL || "",
+      accounts: {
+        mnemonic:
+          //"wife jacket tourist stock immune sponsor cash truck ship strike pizza paper",
+          "arm bunker now crowd canoe candy erupt ability behave pretty pass essay",
       },
     },
     localhost: {
