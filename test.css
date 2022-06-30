@@ -1,0 +1,164 @@
+  :root {
+  --primary-soft-blue: hsl(215, 51%, 70%);
+  --primary-cyan: hsl(178, 100%, 50%);
+
+  --color-main-bg: hsl(217, 54%, 11%);
+  --color-card-bg: hsl(216, 50%, 16%);
+  --color-line: hsl(215, 32%, 27%);
+  --color-white: hsl(0, 0%, 100%);
+}
+
+main {
+  font-family: "Outfit", sans-serif;
+  font-size: 18px;
+  background-color: var(--color-main-bg);
+  color: var(--primary-soft-blue);
+}
+
+main .container {
+  width: 320px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15%;
+  border-radius: 10px;
+  background-color: var(--color-card-bg);
+  box-shadow: 10px 10px var(--color-line);
+}
+
+@media only screen and (min-width: 1024px) {
+  main .container {
+    margin-top: 10%;
+  }
+}
+
+.container-thumbnail {
+  top: 20px;
+  width: 280px;
+  height: auto;
+  position: relative;
+  margin: 20px;
+}
+
+.container-thumbnail img {
+  position: block;
+  opacity: 1;
+  width: 100%;
+  border-radius: 10px;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  background: hsla(178, 100%, 50%, 0.5);
+}
+
+.middle svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.container-thumbnail:hover .image {
+  opacity: 0.3;
+}
+
+.container-thumbnail:hover .middle {
+  opacity: 1;
+}
+
+h1 {
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 21px;
+}
+
+p {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.container-description {
+  width: 280px;
+  margin-top: 10px;
+  padding-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-price {
+  width: 280px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon,
+.value,
+.period {
+  vertical-align: middle;
+}
+
+.value {
+  color: var(--primary-cyan);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.period {
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.container hr {
+  width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  border-color: var(--color-line);
+}
+
+.container .avatar {
+  vertical-align: middle;
+  width: 24px;
+  margin: 10px 10px 10px 0px;
+
+  border: 0.5px solid var(--color-white);
+  border-radius: 50%;
+}
+
+.container-creator {
+  width: 280px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.creator-name {
+  color: var(--color-white);
+}
+
+.creator-name:hover,
+h1:hover {
+  color: var(--primary-cyan);
+}
+
+.attribution {
+  font-size: 11px;
+  text-align: center;
+  margin: 20px;
+}
+.attribution a {
+  color: hsl(228, 45%, 44%);
+}
