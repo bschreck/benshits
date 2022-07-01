@@ -1,38 +1,170 @@
-  :root {
-  --primary-soft-blue: hsl(215, 51%, 70%);
-  --primary-cyan: hsl(178, 100%, 50%);
 
-  --color-main-bg: hsl(217, 54%, 11%);
-  --color-card-bg: hsl(216, 50%, 16%);
+/*TODO: check out this tutorial for flipping
+ * https://www.w3schools.com/howto/howto_css_flip_card.asp
+ * or this video
+ * https://www.youtube.com/watch?v=QGVXmoZWZuw
+ */
+
+@font-face {
+font-family: 'rousseau';
+src: url('file://./RousseauDeco.ttf') format('truetype');
+src: url('file://RousseauDeco.woff') format('woff');
+}
+
+// ADDING JOST FONT
+@font-face {
+font-family: 'jost';
+src: url('file:///Users/bschreck/benshits/fonts/Jost/Jost-VariableFont_wght.ttf');*/
+}
+@font-face {
+font-family: 'cabin-condensed-bold';
+src: url('./fonts/Cabin_Condensed/CabinCondensed-Bold.ttf');
+}
+@font-face {
+font-family: 'cabin-condensed-medium';
+src: url('./fonts/Cabin_Condensed/CabinCondensed-Medium.ttf');
+}
+
+@font-face {
+font-family: 'cabin-condensed-reg';
+src: url('./fonts/Cabin_Condensed/CabinCondensed-Regular.ttf');
+}
+
+@font-face {
+font-family: 'cabin-condensed-sb';
+src: url('./fonts/Cabin_Condensed/CabinCondensed-SemiBold.ttf');
+}
+
+// ADDING JOST ITALIC FONT
+@font-face {
+font-family: 'jost-italic';
+src: url('./fonts/Jost/Jost-Italic-VariableFont_wght.ttf');
+}
+
+
+h1 {
+font-family: 'rousseau';
+}
+h2 {
+font-family: 'cabin-condensed-bold';
+}
+h3 {
+font-family: 'cabin-condensed-sb';
+}
+
+h4 {
+font-family: 'cabin-condensed-medium';
+}
+h5 {
+font-family: 'cabin-condensed-reg';
+}
+
+p {
+  font-family: 'jost';
+}
+a {
+  font-family: 'jost';
+}
+button {
+  font-family: 'jost';
+}
+
+// Color buttons in different colors based on a button size
+// Buttons
+div[class^="sqs-block-button-container"],
+.image-button,
+.image-button.sqs-dynamic-text {
+  a {
+    font-family: 'jost';
+    // Small buttons
+    /*
+    &.sqs-block-button-element--small {
+      background-color: #FFFFFF;
+    }
+
+    // Medium buttons
+    &.sqs-block-button-element--medium {
+      background-color: #FF9230;
+    }
+
+    // Large buttons
+    &.sqs-block-button-element--large {
+      background-color: #DBDCEB;
+    }
+    */
+  }
+}
+  :root {
+  --primary-red: #9b2228;
+  --primary-orange: #f17929;
+  --primary-yellow: #eab644;
+
+  --color-main-bg: white;
+  --color-card-bg: #eab644;
   --color-line: hsl(215, 32%, 27%);
   --color-white: hsl(0, 0%, 100%);
 }
 
 main {
-  font-family: "Outfit", sans-serif;
+  /*font-family: "cabin-condensed-sb";*/
   font-size: 18px;
   background-color: var(--color-main-bg);
-  color: var(--primary-soft-blue);
+  color: var(--primary-red);
 }
 
-main .container {
+main .card-container {
   width: 320px;
   height: auto;
   margin-left: auto;
   margin-right: auto;
   margin-top: 15%;
   border-radius: 10px;
-  background-color: var(--color-card-bg);
-  box-shadow: 10px 10px var(--color-line);
+  background-color: transparent;
+  /*box-shadow: 10px 10px var(--primary-orange);*/
+  perspective: 1000px;
 }
 
+main .card-container-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+main .card-container:hover .card-container-inner {
+  transform: rotateY(180deg);
+}
+
+main .card-container-front {
+  background-color: var(--color-card-bg);
+}
+/* Position the front and back side */
+main .card-container-front, .card-container-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+main .card-container-back {
+  transform: rotateY(180deg);
+  background-color: var(--primary-red);
+}
+
+
 @media only screen and (min-width: 1024px) {
-  main .container {
+  main .card-container-front {
+    margin-top: 10%;
+  }
+  main .card-container-back {
     margin-top: 10%;
   }
 }
 
-.container-thumbnail {
+.card-container-thumbnail {
   top: 20px;
   width: 280px;
   height: auto;
@@ -40,7 +172,7 @@ main .container {
   margin: 20px;
 }
 
-.container-thumbnail img {
+.card-container-thumbnail img {
   position: block;
   opacity: 1;
   width: 100%;
@@ -61,7 +193,7 @@ main .container {
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   text-align: center;
-  background: hsla(178, 100%, 50%, 0.5);
+  background: --primary-red;
 }
 
 .middle svg {
@@ -72,26 +204,28 @@ main .container {
   -ms-transform: translate(-50%, -50%);
 }
 
-.container-thumbnail:hover .image {
+.card-container-thumbnail:hover .image {
   opacity: 0.3;
 }
 
-.container-thumbnail:hover .middle {
+.card-container-thumbnail:hover .middle {
   opacity: 1;
 }
 
-h1 {
+main h1 {
+  font-family: "rousseau";
   color: var(--color-white);
-  font-weight: 600;
+  /*font-weight: 600;*/
   font-size: 21px;
 }
 
-p {
+main p {
+  font-family: "jost";
   font-weight: 400;
   font-size: 16px;
 }
 
-.container-description {
+.card-container-description {
   width: 280px;
   margin-top: 10px;
   padding-top: 10px;
@@ -99,7 +233,7 @@ p {
   margin-right: auto;
 }
 
-.container-price {
+.card-container-price {
   width: 280px;
   margin-top: 10px;
   margin-left: auto;
@@ -113,7 +247,7 @@ p {
 }
 
 .value {
-  color: var(--primary-cyan);
+  color: var(--primary-red);
   font-weight: 600;
   font-size: 16px;
 }
@@ -123,14 +257,16 @@ p {
   font-size: 16px;
 }
 
-.container hr {
+/*
+main .card-container-front hr {
   width: 280px;
   margin-left: auto;
   margin-right: auto;
   border-color: var(--color-line);
 }
+*/
 
-.container .avatar {
+.card-container-front .avatar {
   vertical-align: middle;
   width: 24px;
   margin: 10px 10px 10px 0px;
@@ -139,7 +275,7 @@ p {
   border-radius: 50%;
 }
 
-.container-creator {
+.card-container-creator {
   width: 280px;
   font-weight: 400;
   font-size: 14px;
@@ -151,7 +287,7 @@ p {
 
 .creator-name:hover,
 h1:hover {
-  color: var(--primary-cyan);
+  color: var(--primary-red);
 }
 
 .attribution {
@@ -160,5 +296,5 @@ h1:hover {
   margin: 20px;
 }
 .attribution a {
-  color: hsl(228, 45%, 44%);
+  color: --primary-red;
 }
